@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "objects.h"
 
 void free_object(object_t *obj) {
@@ -53,7 +54,9 @@ object_t *new_string(char *value) {
         return NULL;
     }
     obj->type = STRING;
-    obj->value.v_string = value;
+    char *buffer = malloc(sizeof(value));
+    strcat(buffer, value);
+    obj->value.v_string = buffer;
     return obj;
 }
 
@@ -72,7 +75,7 @@ char *represent_object(object_t obj[]) {
           sprintf(buffer, "%d", obj->value.v_int);
           break;
         case FLOAT:
-          sprintf(buffer, "%f", obj->value.v_float);
+          sprintf(buffer, "%.2f", obj->value.v_float);
           break;
         case STRING:
           sprintf(buffer, "%s", obj->value.v_string);

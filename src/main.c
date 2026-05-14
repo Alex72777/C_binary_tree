@@ -3,17 +3,11 @@
 #include "binary_tree.h"
 #include "objects.h"
 
-int main() {
-    //printf("Hello, World!\n");
-    manual_binary_trees()
-    return 0;
-}
-
-void manual_binary_trees() {
+void manual_binary_trees(void) {
     object_t *num1 = new_integer(3);
     object_t *num2 = new_integer(1);
-    object_t *num3 = new_integer(5);
-    object_t *num4 = new_integer(0);
+    object_t *num3 = new_float(5.12);
+    object_t *num4 = new_string("hi");
     //object_t *num5 = new_integer(4);
     //object_t *num6 = new_float(4.5);
     //printf("declared nums\n");
@@ -36,7 +30,7 @@ void manual_binary_trees() {
     char *buffer = calloc(1024, sizeof(char));
     if (buffer == NULL) {
         printf("Couldn't allocate mem for buffer.\n");
-        return 1;
+        return;
     }
     prefix_represent_node(root, buffer);
     printf("Prefix: %s\n", buffer);
@@ -49,5 +43,12 @@ void manual_binary_trees() {
     postfix_represent_node(root, buffer);
     printf("Postfix: %s\n", buffer);
 
+    free(buffer);
     free_node(root);
+}
+
+int main() {
+    //printf("Hello, World!\n");
+    manual_binary_trees();
+    return 0;
 }
