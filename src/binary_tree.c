@@ -32,7 +32,7 @@ void free_node(node_t *node) {
     free(node);
 }
 
-void represent_node(node_t *node, char *output) {
+void prefix_represent_node(node_t *node, char *output) {
     if (node == NULL) {
         strcat(output, "None");
         return;
@@ -43,9 +43,47 @@ void represent_node(node_t *node, char *output) {
     strcat(output, val);
     free(val);
     strcat(output, ", ");
-    represent_node(node->left, output);
+    prefix_represent_node(node->left, output);
     strcat(output, ", ");
-    represent_node(node->right, output);
+    prefix_represent_node(node->right, output);
+    strcat(output, "]");
+}
+
+void infix_represent_node(node_t *node, char *output) {
+    if (node == NULL) {
+        strcat(output, "None");
+        return;
+    }
+
+    strcat(output, "[");
+    prefix_represent_node(node->left, output);
+
+    strcat(output, ", ");
+    char *val = represent_object(node->value);
+    strcat(output, val);
+    free(val);
+    strcat(output, ", ");
+
+    prefix_represent_node(node->right, output);
+    strcat(output, "]");
+}
+
+void postfix_represent_node(node_t *node, char *output) {
+    if (node == NULL) {
+        strcat(output, "None");
+        return;
+    }
+
+    strcat(output, "[");
+    prefix_represent_node(node->left, output);
+
+    strcat(output, ", ");
+    prefix_represent_node(node->right, output);
+    strcat(output, ", ");
+
+    char *val = represent_object(node->value);
+    strcat(output, val);
+    free(val);
     strcat(output, "]");
 }
 

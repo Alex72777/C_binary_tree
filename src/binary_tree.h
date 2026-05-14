@@ -13,4 +13,7 @@ node_t *new_node(object_t *value);
 void set_left_node(node_t *root, node_t *left);
 void set_right_node(node_t *root, node_t *right);
 void free_node(node_t *node);
-void represent_node(node_t *node, char *output);
+void prefix_represent_node(node_t *node, char *output);
+void infix_represent_node(node_t *node, char *output);
+void postfix_represent_node(node_t *node, char *output);
+void append_node(node_t *node);
