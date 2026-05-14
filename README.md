@@ -1,1 +1,3 @@
-# C_binary_tree
+# A simple binary tree system in C!
+
+e
