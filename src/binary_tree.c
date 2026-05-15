@@ -3,25 +3,9 @@
 #include "binary_tree.h"
 #include "objects.h"
 
-node_t *new_node(object_t *object) {
-    if (object == NULL) {
-        return NULL;
-    }
-
-    node_t *node = malloc(sizeof(node_t));
-    if (node == NULL) {
-        return NULL;
-    }
-    node->value = object;
-    node->left = NULL;
-    node->right = NULL;
-
-    return node;
-}
-
 void free_node(node_t *node) {
     /*
-     * Recursively frees nodes in a post-fix process
+     * Recursively frees nodes
      */
     if (node == NULL) {
         return;
@@ -30,6 +14,18 @@ void free_node(node_t *node) {
     free_node(node->right);
     free_object(node->value);
     free(node);
+}
+
+node_t *get_node(object_t *obj) {
+    if (obj == NULL) {
+        return NULL;
+    }
+
+    if (obj->type != NODE) {
+        return NULL;
+    }
+
+    return obj->value.v_node;
 }
 
 void prefix_represent_node(node_t *node, char *output) {
