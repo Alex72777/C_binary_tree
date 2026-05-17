@@ -98,3 +98,40 @@ void set_right_node(node_t *root, node_t *right) {
 
     root->right = right;
 }
+
+void append_node(node_t *root, node_t *node) {
+    if (root == NULL || node == NULL) {
+        return;
+    }
+    object_t *object_root = root->value;
+    object_t *object_node = node->value;
+
+    void *val_root = get_object_val(object_root);
+    void *val_node = get_object_val(object_node);
+
+    if (object_root->type == INT) {
+        if (object_node->type == INT) {
+            int val_r = *(int *) val_root;
+            int val_n = *(int *) val_node;
+
+            if (val_n < val_r && root->left != NULL) {
+                append_node(root->left, node);
+            } else if (val_n > val_r && root->right != NULL) {
+                append_node(root->right, node);
+            } else if (val_n < val_r && root->left == NULL) {
+                root->left = node;
+            } else {
+                root->right = node;
+            }
+        } else if (object_node->type == FLOAT) {
+            return;
+        }
+    } else if (object_root->type == FLOAT) {
+        if (object_node->type == INT) {
+            return;
+        } else if (object_node->type == FLOAT) {
+            return;
+        }
+    }
+
+}

@@ -150,12 +150,63 @@ object_t *array_get(object_t *arr, size_t index) {
     return obj;
 }
 
+void *get_object_val(object_t *obj) {
+    if (obj == NULL) {
+        return NULL;
+    }
+
+    switch (obj->type) {
+        case INT:
+            return (void *) &obj->value.v_int;
+        case FLOAT:
+            return (void *) &obj->value.v_float;
+        case STRING:
+            return (void *) obj->value.v_string;
+        case NODE:
+            return (void *) &obj->value.v_node;
+        case ARRAY:
+            return (void *) &obj->value.v_array;
+        default:
+            return NULL;
+    }
+}
+
+int *get_integer(object_t *obj) {
+    if (obj == NULL) {
+        return NULL;
+    }
+
+    switch (obj->type) {
+        case INT:
+            return &obj->value.v_int;
+        case FLOAT:
+            return (int *) &obj->value.v_float;
+        default:
+            return NULL;
+    }
+}
+
+float *get_float(object_t *obj) {
+    if (obj == NULL) {
+        return NULL;
+    }
+
+    switch (obj->type) {
+        case INT:
+            return (float *) &obj->value.v_int;
+        case FLOAT:
+            return &obj->value.v_float;
+        default:
+            return NULL;
+    }
+}
+
 char *represent_object(object_t *obj) {
     if (obj == NULL) {
         return NULL;
     }
 
-    char *buffer = malloc(1024);
+    char *buffer = calloc(1024, sizeof(char));
     if (buffer == NULL) {
         return NULL;
     }

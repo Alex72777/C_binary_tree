@@ -83,9 +83,30 @@ void play_with_arrays() {
     free(repr);
 }
 
+void create_dynamic_tree() {
+    object_t *root = new_node(new_integer(3));
+    node_t *root_n = get_node(root);
+
+    object_t *sag = new_node(new_integer(1));
+    object_t *sad = new_node(new_integer(4));
+    append_node(root_n, get_node(sag));
+    append_node(root_n, get_node(sad));
+
+    append_node(root_n, get_node(new_node(new_integer(2))));
+    append_node(root_n, get_node(new_node(new_integer(7))));
+
+    char *buffer = calloc(1024, sizeof(char));
+    if (buffer == NULL) {
+        return;
+    }
+    prefix_represent_node(root_n, buffer);
+    printf("%s\n", buffer);
+}
+
 int main() {
     //printf("Hello, World!\n");
     //manual_binary_trees();
-    play_with_arrays();
+    //play_with_arrays();
+    create_dynamic_tree();
     return 0;
 }

@@ -43,6 +43,12 @@ object_t *new_string(char *value);
 object_t *new_array(size_t size);
 object_t *new_node(object_t *value);
 
+void *get_object_val(object_t *obj);
+int *get_integer(object_t *obj);
+float *get_float(object_t *obj);
+char *get_string(object_t *obj);
+node_t *get_node(object_t *obj);
+
 size_t array_length(object_t *arr);
 bool array_set(object_t *arr, size_t index, object_t *value);
 object_t *array_get(object_t *arr, size_t index);
