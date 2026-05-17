@@ -32,7 +32,7 @@ void free_object(object_t *obj) {
     free(obj);
 }
 
-object_t *_new_object() {
+object_t *_new_object(void) {
     object_t *obj = calloc(1, sizeof(object_t));
     if (obj == NULL) {
         return NULL;
@@ -66,7 +66,7 @@ object_t *new_string(char *value) {
         return NULL;
     }
     obj->type = STRING;
-    char *buffer = malloc(sizeof(value));
+    char *buffer = calloc(strlen(value) + 1, sizeof(char));
     strcat(buffer, value);
     obj->value.v_string = buffer;
     return obj;
@@ -77,7 +77,7 @@ object_t *new_node(object_t *root) {
         return NULL;
     }
 
-    object_t *obj = malloc(sizeof(object_t));
+    object_t *obj = _new_object();
     if (obj == NULL) {
         return NULL;
     }
@@ -98,7 +98,7 @@ object_t *new_node(object_t *root) {
 }
 
 object_t *new_array(size_t size) {
-    object_t *obj = malloc(sizeof(object_t));
+    object_t *obj = _new_object();
     if (obj == NULL) {
         return NULL;
     }
@@ -117,7 +117,7 @@ object_t *new_array(size_t size) {
 }
 
 bool array_set(object_t *arr, size_t index, object_t *value) {
-    if (arr == NULL || value == NULL) {
+    if (arr == NULL) {
         return false;
     }
 
@@ -180,7 +180,8 @@ int *get_integer(object_t *obj) {
         case INT:
             return &obj->value.v_int;
         case FLOAT:
-            return (int *) &obj->value.v_float;
+            obj->value.v_int = (int) obj->value.v_float;
+            return &obj->value.v_int;
         default:
             return NULL;
     }
@@ -193,7 +194,8 @@ float *get_float(object_t *obj) {
 
     switch (obj->type) {
         case INT:
-            return (float *) &obj->value.v_int;
+            obj->value.v_float = (float) obj->value.v_int;
+            return &obj->value.v_float;
         case FLOAT:
             return &obj->value.v_float;
         default:
@@ -210,7 +212,6 @@ char *represent_object(object_t *obj) {
     if (buffer == NULL) {
         return NULL;
     }
-    buffer[0] = '\0';
 
     switch (obj->type) {
         case INT:
@@ -241,13 +242,6 @@ char *represent_object(object_t *obj) {
         case NODE:{
             prefix_represent_node(obj->value.v_node, buffer);
             break;
-            /*if (obj->value.v_node->repr_method == PREFIX) {
-                prefix_represent_node(obj->value.v_node, buffer);
-            } else if (obj->value.v_node->repr_method == INFIX) {
-                infix_represent_node(obj->value.v_node, buffer);
-            } else {
-                postfix_represent_node(obj->value.v_node, buffer);
-                }*/
         }
         default:
           break;

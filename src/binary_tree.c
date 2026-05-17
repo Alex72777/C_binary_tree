@@ -52,7 +52,7 @@ void infix_represent_node(node_t *node, char *output) {
     }
 
     strcat(output, "[");
-    prefix_represent_node(node->left, output);
+    infix_represent_node(node->left, output);
 
     strcat(output, ", ");
     char *val = represent_object(node->value);
@@ -60,7 +60,7 @@ void infix_represent_node(node_t *node, char *output) {
     free(val);
     strcat(output, ", ");
 
-    prefix_represent_node(node->right, output);
+    infix_represent_node(node->right, output);
     strcat(output, "]");
 }
 
@@ -71,10 +71,10 @@ void postfix_represent_node(node_t *node, char *output) {
     }
 
     strcat(output, "[");
-    prefix_represent_node(node->left, output);
+    postfix_represent_node(node->left, output);
 
     strcat(output, ", ");
-    prefix_represent_node(node->right, output);
+    postfix_represent_node(node->right, output);
     strcat(output, ", ");
 
     char *val = represent_object(node->value);
@@ -124,13 +124,46 @@ void append_node(node_t *root, node_t *node) {
                 root->right = node;
             }
         } else if (object_node->type == FLOAT) {
-            return;
+            int val_r = *(int *) val_root;
+            float val_n = *(float *) val_node;
+
+            if (val_n < val_r && root->left != NULL) {
+                append_node(root->left, node);
+            } else if (val_n > val_r && root->right != NULL) {
+                append_node(root->right, node);
+            } else if (val_n < val_r && root->left == NULL) {
+                root->left = node;
+            } else {
+                root->right = node;
+            }
         }
     } else if (object_root->type == FLOAT) {
         if (object_node->type == INT) {
-            return;
+            float val_r = *(float *) val_root;
+            int val_n = *(int *) val_node;
+
+            if (val_n < val_r && root->left != NULL) {
+                append_node(root->left, node);
+            } else if (val_n > val_r && root->right != NULL) {
+                append_node(root->right, node);
+            } else if (val_n < val_r && root->left == NULL) {
+                root->left = node;
+            } else {
+                root->right = node;
+            }
         } else if (object_node->type == FLOAT) {
-            return;
+            float val_r = *(float *) val_root;
+            float val_n = *(float *) val_node;
+
+            if (val_n < val_r && root->left != NULL) {
+                append_node(root->left, node);
+            } else if (val_n > val_r && root->right != NULL) {
+                append_node(root->right, node);
+            } else if (val_n < val_r && root->left == NULL) {
+                root->left = node;
+            } else {
+                root->right = node;
+            }
         }
     }
 

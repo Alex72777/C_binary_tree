@@ -36,7 +36,7 @@ typedef struct Object {
 void free_object(object_t *object);
 char *represent_object(object_t *obj);
 
-object_t *_new_object();
+object_t *_new_object(void);
 object_t *new_integer(int value);
 object_t *new_float(float value);
 object_t *new_string(char *value);
