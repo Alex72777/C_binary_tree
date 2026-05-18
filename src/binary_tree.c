@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+//#include <stdio.h>
 #include "binary_tree.h"
 #include "objects.h"
 
@@ -106,65 +107,26 @@ void append_node(node_t *root, node_t *node) {
     object_t *object_root = root->value;
     object_t *object_node = node->value;
 
-    void *val_root = get_object_val(object_root);
-    void *val_node = get_object_val(object_node);
+    float val_r = get_float(object_root);
+    float val_n = get_float(object_node);
+    //printf("(%f, %f)", val_r, val_n);
 
-    if (object_root->type == INT) {
-        if (object_node->type == INT) {
-            int val_r = *(int *) val_root;
-            int val_n = *(int *) val_node;
-
-            if (val_n < val_r && root->left != NULL) {
-                append_node(root->left, node);
-            } else if (val_n > val_r && root->right != NULL) {
-                append_node(root->right, node);
-            } else if (val_n < val_r && root->left == NULL) {
-                root->left = node;
-            } else {
-                root->right = node;
-            }
-        } else if (object_node->type == FLOAT) {
-            int val_r = *(int *) val_root;
-            float val_n = *(float *) val_node;
-
-            if (val_n < val_r && root->left != NULL) {
-                append_node(root->left, node);
-            } else if (val_n > val_r && root->right != NULL) {
-                append_node(root->right, node);
-            } else if (val_n < val_r && root->left == NULL) {
-                root->left = node;
-            } else {
-                root->right = node;
-            }
-        }
-    } else if (object_root->type == FLOAT) {
-        if (object_node->type == INT) {
-            float val_r = *(float *) val_root;
-            int val_n = *(int *) val_node;
-
-            if (val_n < val_r && root->left != NULL) {
-                append_node(root->left, node);
-            } else if (val_n > val_r && root->right != NULL) {
-                append_node(root->right, node);
-            } else if (val_n < val_r && root->left == NULL) {
-                root->left = node;
-            } else {
-                root->right = node;
-            }
-        } else if (object_node->type == FLOAT) {
-            float val_r = *(float *) val_root;
-            float val_n = *(float *) val_node;
-
-            if (val_n < val_r && root->left != NULL) {
-                append_node(root->left, node);
-            } else if (val_n > val_r && root->right != NULL) {
-                append_node(root->right, node);
-            } else if (val_n < val_r && root->left == NULL) {
-                root->left = node;
-            } else {
-                root->right = node;
-            }
-        }
+    if (val_n < val_r && root->left != NULL) {
+        append_node(root->left, node);
+    } else if (val_n > val_r && root->right != NULL) {
+        append_node(root->right, node);
+    } else if (val_n < val_r && root->left == NULL) {
+        root->left = node;
+    } else {
+        root->right = node;
     }
 
+}
+
+object_t *node_length(node_t *node) {
+    return NULL;
+}
+
+object_t *binary_tree_length(node_t *root) {
+    return NULL;
 }

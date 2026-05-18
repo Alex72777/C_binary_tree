@@ -44,8 +44,8 @@ object_t *new_array(size_t size);
 object_t *new_node(object_t *value);
 
 void *get_object_val(object_t *obj);
-int *get_integer(object_t *obj);
-float *get_float(object_t *obj);
+int get_integer(object_t *obj);
+float get_float(object_t *obj);
 char *get_string(object_t *obj);
 node_t *get_node(object_t *obj);
 

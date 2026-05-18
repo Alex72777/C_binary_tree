@@ -67,7 +67,7 @@ object_t *new_string(char *value) {
     }
     obj->type = STRING;
     char *buffer = calloc(strlen(value) + 1, sizeof(char));
-    strcat(buffer, value);
+    strcpy(buffer, value);
     obj->value.v_string = buffer;
     return obj;
 }
@@ -171,35 +171,37 @@ void *get_object_val(object_t *obj) {
     }
 }
 
-int *get_integer(object_t *obj) {
+int get_integer(object_t *obj) {
     if (obj == NULL) {
-        return NULL;
+        return 0;
     }
 
     switch (obj->type) {
         case INT:
-            return &obj->value.v_int;
-        case FLOAT:
-            obj->value.v_int = (int) obj->value.v_float;
-            return &obj->value.v_int;
+            return obj->value.v_int;
+        case FLOAT: {
+            //obj->value.v_int = (int) obj->value.v_float;
+            int val = (int) get_float(obj);
+            return val;
+        }
         default:
-            return NULL;
+            return 0;
     }
 }
 
-float *get_float(object_t *obj) {
+float get_float(object_t *obj) {
     if (obj == NULL) {
-        return NULL;
+        return 0;
     }
 
     switch (obj->type) {
         case INT:
-            obj->value.v_float = (float) obj->value.v_int;
-            return &obj->value.v_float;
+            //obj->value.v_float = (float) obj->value.v_int;
+            return (float) get_integer(obj);
         case FLOAT:
-            return &obj->value.v_float;
+            return obj->value.v_float;
         default:
-            return NULL;
+            return 0;
     }
 }
 
